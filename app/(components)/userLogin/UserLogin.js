@@ -11,7 +11,7 @@ import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 export default function UserLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [visiblePass, setVisiblePass] = useState(true);
+  const [showPass, setShowPass] = useState(false);
   const [error, setError] = useState("");
 
   const router = useRouter();
@@ -31,7 +31,7 @@ export default function UserLogin() {
       router.replace("logout");
     } catch (error) {
       console.log("error", error);
-    } 
+    }
   };
 
   return (
@@ -51,18 +51,18 @@ export default function UserLogin() {
               <input
                 onChange={(e) => setPassword(e.target.value)}
                 value={password}
-                type={visiblePass ? "password" : "text"}
+                type={showPass ? "text" : "password"}
                 className="outline-none w-full"
                 placeholder="password"
               />
               <div
                 className="cursor-pointer"
-                onClick={() => setVisiblePass(!visiblePass)}
+                onClick={() => setShowPass(!showPass)}
               >
-                {visiblePass ? (
-                  <FontAwesomeIcon className="text-sm px-2" icon={faEyeSlash} />
-                ) : (
+                {showPass ? (
                   <FontAwesomeIcon className="text-sm px-2" icon={faEye} />
+                ) : (
+                  <FontAwesomeIcon className="text-sm px-2" icon={faEyeSlash} />
                 )}
               </div>
             </div>
@@ -79,12 +79,17 @@ export default function UserLogin() {
                 {error}
               </div>
             )}
-
-            <Link href="/signup">
-              Don't have an account? <span className="underline">Register</span>
-            </Link>
           </form>
           <ForgetModal />
+
+          <div className="text-right mt-6">
+            <span>Don't have an account?</span>
+            <Link href={"signup"}>
+              <span className="underline ml-3 hover:decoration-blue-800 hover:text-blue-800">
+                Registration
+              </span>
+            </Link>
+          </div>
         </div>
       </div>
     </>

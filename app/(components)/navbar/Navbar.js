@@ -6,6 +6,7 @@ import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { faBars, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useSession } from "next-auth/react";
 import LoginBtn from "../loginBtn/LoginBtn";
+import SignupBtn from "../signupBtn/SignupBtn";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -89,7 +90,13 @@ export default function Navbar() {
                   className="text-white text-xl mr-3"
                 />
               </button>
-              {session ? <ProfileModal /> : <LoginBtn />}
+              {session ? (
+                <ProfileModal />
+              ) : (
+                <div>
+                <SignupBtn />  <LoginBtn /> 
+                </div>
+              )}
             </div>
           </div>
         </div>

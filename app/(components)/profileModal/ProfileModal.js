@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import LoginBtn from "../loginBtn/LoginBtn";
 
 export default function ProfileModal() {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
 
   const openModal = () => {
