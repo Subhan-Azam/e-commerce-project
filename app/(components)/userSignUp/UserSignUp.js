@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import GoogleLogin from "../googleLogin/GoogleLogin";
 
 export default function UserRegistration() {
   const [name, setName] = useState("");
@@ -146,7 +147,7 @@ export default function UserRegistration() {
                 </div>
               )}
             </div>
-            
+
             <button className="py-2 text-lg font-semibold rounded-lg bg-green-500">
               Registration
             </button>
@@ -164,6 +165,10 @@ export default function UserRegistration() {
                   LogIn
                 </span>
               </Link>
+            </div>
+
+            <div className="-mt-4">
+              <GoogleLogin />
             </div>
           </form>
         </div>

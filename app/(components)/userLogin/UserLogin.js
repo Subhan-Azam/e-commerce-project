@@ -7,6 +7,7 @@ import ForgetModal from "../forgetModal/ForgetModal";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-regular-svg-icons";
 import { faEyeSlash } from "@fortawesome/free-regular-svg-icons";
+import GoogleLogin from "../googleLogin/GoogleLogin";
 
 export default function UserLogin() {
   const [email, setEmail] = useState("");
@@ -90,6 +91,7 @@ export default function UserLogin() {
               </span>
             </Link>
           </div>
+          <GoogleLogin />
         </div>
       </div>
     </>

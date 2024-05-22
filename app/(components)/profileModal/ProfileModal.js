@@ -2,11 +2,15 @@
 import React, { useState } from "react";
 import UserLogOut from "../userLogout/UserLogOut";
 import { useSession } from "next-auth/react";
-import LoginBtn from "../loginBtn/LoginBtn";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+import Image from 'next/image'
 
 export default function ProfileModal() {
   const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
+
+  const userImage = session?.user?.image;
 
   const openModal = () => {
     setIsOpen(!isOpen);
@@ -18,7 +22,16 @@ export default function ProfileModal() {
         onClick={openModal}
         className="bg-blue-500 h-10 w-10 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
-        <span>+</span>
+        {userImage ? (
+          <Image
+          src={userImage}
+          width={500}
+          height={500}
+          alt="Picture of the author"
+        />
+        ) : (
+          <FontAwesomeIcon icon={faUser} />
+        )}
       </button>
 
       {isOpen && (

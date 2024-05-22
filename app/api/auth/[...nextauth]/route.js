@@ -2,6 +2,7 @@ import { dbConfig } from "@/config/dbConfig";
 import userModel from "@/models/userModel";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import bcrypt from "bcryptjs";
 
 export const authOptions = {
@@ -34,24 +35,32 @@ export const authOptions = {
         }
       },
     }),
+
+    // Login with Google
+
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+    })
+
   ],
 
-  // callbacks: {
-  //   session: async ({ session, token }) => {
-  //     if (session?.user) {
-  //       session.user.id = token.sub;
-  //     }
-  //     console.log("session", session);
-  //     return session;
-  //   },
-  //   jwt: async ({ user, token }) => {
-  //     if (user) {
-  //       token.uid = user.id;
-  //     }
-  //     console.log("token :>> ", token);
-  //     return token;
-  //   },
-  // },
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.sub;
+      }
+      console.log("session", session);
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      console.log("token :>> ", token);
+      return token;
+    },
+  },
 
   session: {
     strategy: "jwt",
