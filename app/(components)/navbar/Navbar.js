@@ -41,7 +41,7 @@ export default function Navbar() {
                 />
               </button>
             </div>
-            <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+            <div className="flex flex-1 items-center justify-end sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
                 <img
                   className="h-8 w-auto"
@@ -85,18 +85,21 @@ export default function Navbar() {
                 type="button"
                 className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
               >
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={faCartShopping}
                   className="text-white text-xl mr-3"
-                />
+                /> */}
               </button>
-              {session ? (
-                <ProfileModal />
-              ) : (
-                <div>
-                <SignupBtn />  <LoginBtn /> 
-                </div>
-              )}
+
+              <div className="hidden sm:block">
+                {session ? (
+                  <ProfileModal />
+                ) : (
+                  <div>
+                    <SignupBtn /> <LoginBtn />
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -131,6 +134,15 @@ export default function Navbar() {
             >
               Calendar
             </a>
+          </div>
+          <div className="ml-4">
+            {session ? (
+              <ProfileModal />
+            ) : (
+              <div>
+                <SignupBtn /> <LoginBtn />
+              </div>
+            )}
           </div>
         </div>
       </nav>

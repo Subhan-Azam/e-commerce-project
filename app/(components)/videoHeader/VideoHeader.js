@@ -2,7 +2,7 @@ import React from "react";
 
 export default function VideoHeader() {
   return (
-    <section className="relative header_area">
+    <section className="relative -z-10 header_area">
       <video
         src="/assets/bg-video.mp4"
         type="video/mp4"

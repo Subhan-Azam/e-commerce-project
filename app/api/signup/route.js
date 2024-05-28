@@ -7,7 +7,12 @@ export async function POST(req) {
   try {
     await dbConfig();
     const { name, email, password } = await req.json();
+    console.log("name", name);
+    console.log("email", email);
+    console.log("password", password);
+
     const hashPass = await bcrypt.hash(password, 10);
+    console.log("hashPass", hashPass);
 
     await userModel.create({ name, email, password: hashPass });
 

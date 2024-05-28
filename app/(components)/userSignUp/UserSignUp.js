@@ -18,10 +18,28 @@ export default function UserRegistration() {
   const router = useRouter();
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-  const minLength = 7;
-  const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/;
+  // const minLength = 7;
+  // const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
-  const submitHandler = (e) => {
+  // Check if email already exists
+  const checkEmailExists = async (email) => {
+    try {
+      const response = await fetch("/api/userExist", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+      const data = await response.json();
+      return data.message === "Email already exists";
+    } catch (error) {
+      console.error("Error checking email:", error);
+      return false;
+    }
+  };
+
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !password) {
@@ -39,57 +57,100 @@ export default function UserRegistration() {
       setErrorInEmail("");
     }
 
-    // Minimum Length in password
-    if (password.length < minLength) {
-      setErrorInPass("Minimum 7 characters.");
+    // email validation
+    if (!emailRegex.test(email)) {
+      setErrorInEmail("Please provide correct email");
+      return;
+    } else {
+      setErrorInEmail("");
+    }
+
+    // Check if email already exists
+    const emailExists = await checkEmailExists(email);
+    if (emailExists) {
+      setErrorInEmail("User already exists");
       return;
     }
 
-    // special character in password
-    if (!specialCharacterRegex.test(password)) {
-      setErrorInPass("Minimum 1 special character.");
+    // Minimum Length in password
+    if (password.length < 5) {
+      setErrorInPass("Minimum 5 characters.");
       return;
     }
     setErrorInPass("");
+
+    // special character in password
+    // if (!specialCharacterRegex.test(password)) {
+    //   setErrorInPass("Minimum 1 special character.");
+    //   return;
+    // }
+    // setErrorInPass("");
 
     // remove more than one spaces b/t words of name & email
     const normalizeSpaces = (str) => {
       return str.replace(/\s+/g, " ").trim();
     };
 
+    // send Random Code on email
     try {
-      const myHeaders = new Headers();
-      myHeaders.append("Content-Type", "application/json");
-
-      const raw = JSON.stringify({
-        name: normalizeSpaces(name),
-        email: normalizeSpaces(email),
-        password: password,
+      const response = await fetch("/api/randomCode", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
       });
 
-      const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
-        redirect: "follow",
-      };
+      const data = await response.json();
+      console.log("data", data);
 
-      fetch("/api/signup", requestOptions)
-        .then((response) => response.text())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
+      if (response.ok) {
+        console.log("response=========", data.message);
+      } else {
+        console.log("response=========", `${data.message}`);
+      }
+
+      router.push("/randomPassword");
+      
     } catch (error) {
-      console.log("error========", error);
-    } finally {
-      setName("");
-      setEmail("");
-      setPassword("");
-      setError("");
-      setErrorInEmail("");
-      setErrorInPass("");
-      alert("Data successfully saved");
-      router.push("/login");
+      console.error("Error sending code:", error);
+      console.log("An error occurred while sending the code.");
     }
+
+    // user signUp
+    //   try {
+    //     const myHeaders = new Headers();
+    //     myHeaders.append("Content-Type", "application/json");
+
+    //     const raw = JSON.stringify({
+    //       name: normalizeSpaces(name),
+    //       email: normalizeSpaces(email),
+    //       password: password,
+    //     });
+
+    //     const requestOptions = {
+    //       method: "POST",
+    //       headers: myHeaders,
+    //       body: raw,
+    //       redirect: "follow",
+    //     };
+
+    //     fetch("/api/signup", requestOptions)
+    //       .then((response) => response.text())
+    //       .then((result) => console.log(result))
+    //       .catch((error) => console.error(error));
+    //   } catch (error) {
+    //     console.log("error========", error);
+    //   } finally {
+    //     // setName("");
+    //     // setEmail("");
+    //     // setPassword("");
+    //     // setError("");
+    //     // setErrorInEmail("");
+    //     // setErrorInPass("");
+    //     alert("Data successfully saved");
+    //     router.push("/login");
+    //   }
   };
 
   return (

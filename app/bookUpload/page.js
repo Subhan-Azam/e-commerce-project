@@ -2,34 +2,33 @@
 
 // import Context from "@/config/context";
 import Image from "next/image";
-import React, {useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
 const page = () => {
   const { data: sessionData } = useSession();
-  console.log('sessionData', sessionData)
+  console.log("sessionData", sessionData);
   // const { message, setMessage } = useContext(Context);
 
-let obj ={
+  let obj = {
     title: "",
     author: "",
     price: null,
     catogery: "",
     description: "",
-  }
+  };
 
   const [bookinfo, setBookinfo] = useState(obj);
   const [img, setImg] = useState([]);
   function changehandler(e) {
     setBookinfo({ ...bookinfo, [e.target.name]: e.target.value });
   }
-  
 
   async function imagehandler(e) {
     const files = e.target.files;
-    
-    console.log(files)
+
+    console.log(files);
     if (files.length >= 5 || img.length >= 5) {
       return;
     }
@@ -58,10 +57,9 @@ let obj ={
       await Promise.all(promises);
     } catch (error) {
       console.error("Error reading images:", error);
-    } 
+    }
   }
 
-  
   async function uploaddata(e) {
     e.preventDefault();
     if (sessionData != null) {
@@ -75,17 +73,17 @@ let obj ={
       img,
       userid,
     };
-   const response = await axios
+    const response = await axios
       .post("http://localhost:3000/api/bookUploadApi", obj)
       .then((result) => {
         console.log(result);
-        setBookinfo(obj)
-        setImg([])
+        setBookinfo(obj);
+        setImg([]);
       })
       .catch((err) => {
         console.log(err);
       });
-      console.log('response', response)
+    console.log("response", response);
   }
 
   function del(index) {

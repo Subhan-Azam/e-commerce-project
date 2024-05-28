@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import UserLogOut from "../userLogout/UserLogOut";
 import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-regular-svg-icons";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 import Image from 'next/image'
 
 export default function ProfileModal() {
@@ -20,11 +20,12 @@ export default function ProfileModal() {
     <div className="relative">
       <button
         onClick={openModal}
-        className="bg-blue-500 h-10 w-10 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="text-blue-950 h-10 w-10 rounded-full flex items-center justify-center bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
         {userImage ? (
           <Image
           src={userImage}
+          className="rounded-full"
           width={500}
           height={500}
           alt="Picture of the author"
