@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import GoogleLogin from "../googleLogin/GoogleLogin";
+import Loader from "@/app/loader/Loader";
 
 export default function UserRegistration() {
   const [name, setName] = useState("");
@@ -14,30 +15,32 @@ export default function UserRegistration() {
   const [errorInEmail, setErrorInEmail] = useState("");
   const [errorInPass, setErrorInPass] = useState("");
   const [showPass, setShowPass] = useState(false);
+  const [loader, setLoader] = useState(false);
 
   const router = useRouter();
+  // const router2 = useRouter();
 
   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
   // const minLength = 7;
   // const specialCharacterRegex = /[!@#$%^&*(),.?":{}|<>]/;
 
   // Check if email already exists
-  const checkEmailExists = async (email) => {
-    try {
-      const response = await fetch("/api/userExist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }),
-      });
-      const data = await response.json();
-      return data.message === "Email already exists";
-    } catch (error) {
-      console.error("Error checking email:", error);
-      return false;
-    }
-  };
+  // const checkEmailExists = async (email) => {
+  //   try {
+  //     const response = await fetch("/api/userExist", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ email }),
+  //     });
+  //     const data = await response.json();
+  //     return data.message === "Email already exists";
+  //   } catch (error) {
+  //     console.error("Error checking email:", error);
+  //     return false;
+  //   }
+  // };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -66,11 +69,11 @@ export default function UserRegistration() {
     }
 
     // Check if email already exists
-    const emailExists = await checkEmailExists(email);
-    if (emailExists) {
-      setErrorInEmail("User already exists");
-      return;
-    }
+    // const emailExists = await checkEmailExists(email);
+    // if (emailExists) {
+    //   setErrorInEmail("User already exists");
+    //   return;
+    // }
 
     // Minimum Length in password
     if (password.length < 5) {
@@ -91,9 +94,11 @@ export default function UserRegistration() {
       return str.replace(/\s+/g, " ").trim();
     };
 
+    setLoader(true);
+
     // send Random Code on email
     try {
-      const response = await fetch("/api/randomCode", {
+      const response = await fetch("/api/sendRandomCode", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -102,67 +107,77 @@ export default function UserRegistration() {
       });
 
       const data = await response.json();
-      console.log("data", data);
+      console.log("data===>", data);
+      const [emailCode, setEmailCode] = useState("");
+      setEmailCode(data.code);
+      // const emailCode = data.code;
+      console.log("Code===>", emailCode);
 
       if (response.ok) {
         console.log("response=========", data.message);
       } else {
         console.log("response=========", `${data.message}`);
       }
-
-      router.push("/randomPassword");
-      
     } catch (error) {
       console.error("Error sending code:", error);
       console.log("An error occurred while sending the code.");
     }
 
     // user signUp
-    //   try {
-    //     const myHeaders = new Headers();
-    //     myHeaders.append("Content-Type", "application/json");
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
 
-    //     const raw = JSON.stringify({
-    //       name: normalizeSpaces(name),
-    //       email: normalizeSpaces(email),
-    //       password: password,
-    //     });
+      const raw = JSON.stringify({
+        name: normalizeSpaces(name),
+        email: normalizeSpaces(email),
+        password: password,
+      });
 
-    //     const requestOptions = {
-    //       method: "POST",
-    //       headers: myHeaders,
-    //       body: raw,
-    //       redirect: "follow",
-    //     };
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+      };
 
-    //     fetch("/api/signup", requestOptions)
-    //       .then((response) => response.text())
-    //       .then((result) => console.log(result))
-    //       .catch((error) => console.error(error));
-    //   } catch (error) {
-    //     console.log("error========", error);
-    //   } finally {
-    //     // setName("");
-    //     // setEmail("");
-    //     // setPassword("");
-    //     // setError("");
-    //     // setErrorInEmail("");
-    //     // setErrorInPass("");
-    //     alert("Data successfully saved");
-    //     router.push("/login");
-    //   }
+      fetch("/api/signup", requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
+    } catch (error) {
+      console.log("error========", error);
+    } finally {
+      // setName("");
+      // setEmail("");
+      // setPassword("");
+      // setError("");
+      // setErrorInEmail("");
+      // setErrorInPass("");
+      setLoader(false);
+      alert("Data successfully saved");
+      // router2.push("/verificationCode");
+
+      router.push("/login");
+    }
   };
 
   return (
     <>
       <div className="grid place-items-center mx-10 lg:mx-0 h-screen">
+        {loader && (
+          <div className="z-50">
+            <Loader />
+          </div>
+        )}
+
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 shadow-2xl rounded-xl h-auto max-w-[400px] w-full p-7 border-t-4 bg-zinc-300/10 border-green-500">
           <h1 className="font-bold text-2xl">Registration</h1>
           <form onSubmit={submitHandler} className="flex flex-col gap-6 my-4">
             <input
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="p-2 border-2 border-gray-300 rounded-lg"
+              className="outline-green-500 p-2 border-2 border-gray-300 rounded-lg"
               type="text"
               placeholder="Full Name"
             />
@@ -171,7 +186,7 @@ export default function UserRegistration() {
               <input
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="p-2 border-2 border-gray-300 rounded-lg w-full"
+                className="outline-green-500 p-2 border-2 border-gray-300 rounded-lg w-full"
                 type="email"
                 placeholder="Email"
               />
@@ -183,7 +198,7 @@ export default function UserRegistration() {
             </div>
 
             <div>
-              <div className="flex items-center justify-between p-2 border-2 border-gray-300 rounded-lg">
+              <div className="flex items-center justify-between p-2 border-2 border-gray-300 outline-green-500 rounded-lg">
                 <input
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}

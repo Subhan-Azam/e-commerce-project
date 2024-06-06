@@ -17,7 +17,7 @@ export default function ProfileModal() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative z-10">
       <button
         onClick={openModal}
         className="text-blue-950 h-10 w-10 rounded-full flex items-center justify-center bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"

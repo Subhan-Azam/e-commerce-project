@@ -7,6 +7,7 @@ import { faBars, faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useSession } from "next-auth/react";
 import LoginBtn from "../loginBtn/LoginBtn";
 import SignupBtn from "../signupBtn/SignupBtn";
+import SellProductsBtn from "../sellProductsBtn/SellProductsBtn";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,10 +45,13 @@ export default function Navbar() {
             <div className="flex flex-1 items-center justify-end sm:items-stretch sm:justify-start">
               <div className="flex flex-shrink-0 items-center">
                 <img
-                  className="h-8 w-auto"
+                  className="h-8 w-auto hidden sm:block"
                   src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                   alt="Your Company"
                 />
+                <div className="block sm:hidden">
+                  <ProfileModal />
+                </div>
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
@@ -93,7 +97,10 @@ export default function Navbar() {
 
               <div className="hidden sm:block">
                 {session ? (
-                  <ProfileModal />
+                  <div className="flex flex-row-reverse gap-8 items-center">
+                    <ProfileModal />
+                    <SellProductsBtn />
+                  </div>
                 ) : (
                   <div>
                     <SignupBtn /> <LoginBtn />
@@ -137,7 +144,9 @@ export default function Navbar() {
           </div>
           <div className="ml-4">
             {session ? (
-              <ProfileModal />
+              <div className="flex gap-8 items-center">
+                <SellProductsBtn />
+              </div>
             ) : (
               <div>
                 <SignupBtn /> <LoginBtn />

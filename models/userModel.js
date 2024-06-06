@@ -20,18 +20,16 @@ export const userSchema = new mongoose.Schema({
   reset_token_expiration: {
     type: Date,
   },
-  // isVerified: {
-  //   type: Boolean,
-  //   default: false,
-  // },
+  isVerified: {
+    type: Boolean,
+    default: false,
+  },
+  verifyToken: String,
+  verifyTokenExpiry: Date,
   // isAdmin: {
   //   type: Boolean,
   //   default: false,
   // },
-  // forgetPasswordToken: String,
-  // forgetPasswordTokenExpiry: Date,
-  // verifyToken: String,
-  // verifyTokenExpiry: Date,
 });
 
 export default mongoose.models.login || mongoose.model("login", userSchema);
