@@ -101,6 +101,8 @@
 // }
 
 
+
+
 import axios from "axios";
 import Link from "next/link";
 
@@ -117,8 +119,8 @@ const fetchProducts = async () => {
 };
 
 export default async function FetchProducts() {
-  const data = await fetchProducts();
-  console.log("data2===>", data);
+  let result = await fetchProducts();
+  console.log("result===>", result);
   return (
     <section className="text-gray-600 body-font bg-gray-100 dark:bg-gray-900">
       <div className="container px-5 py-24 mx-auto">
@@ -131,11 +133,11 @@ export default async function FetchProducts() {
           </p>
         </div>
         <div className="flex flex-wrap -m-4">
-          {data?.map((item) => {
+          {result?.map((item) => {
             return (
               <div className="mx-auto sm:mx-0 p-4 sm:w-1/2 md:w-1/3 lg:w-1/4">
                 <div className="w-[300px] sm:w-[290px] reverse h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg hover:shadow-gray-600">
-                  <Link href={`/productDetail/${item.id}`} key={item.id}>
+                  <Link href={`/productDetail/${item._id}`} key={item._id}>
                     <img
                       className="py-2 lg:h-48 md:h-36 w-full object-cover object-center"
                       src={item.imgs_url[0].img_url}

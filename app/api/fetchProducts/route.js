@@ -1,7 +1,9 @@
+import { dbConfig } from "@/config/dbConfig";
 import bookSchema from "@/models/bookSchema";
 import { NextResponse } from "next/server";
 
 export const GET = async () => {
+  await dbConfig();
   try {
     const fetchData = await bookSchema.find();
     console.log("fetchData==>", fetchData);
