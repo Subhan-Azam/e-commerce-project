@@ -4,7 +4,7 @@ import Navbar from "../(components)/navbar/Navbar";
 export default function LogOut() {
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       
     </div>
   );

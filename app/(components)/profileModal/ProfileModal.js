@@ -4,7 +4,8 @@ import UserLogOut from "../userLogout/UserLogOut";
 import { useSession } from "next-auth/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
-import Image from 'next/image'
+import Image from "next/image";
+import YourProductBtn from "../yourProductBtn/YourProductBtn";
 
 export default function ProfileModal() {
   const [isOpen, setIsOpen] = useState(false);
@@ -24,12 +25,12 @@ export default function ProfileModal() {
       >
         {userImage ? (
           <Image
-          src={userImage}
-          className="rounded-full"
-          width={500}
-          height={500}
-          alt="Picture of the author"
-        />
+            src={userImage}
+            className="rounded-full"
+            width={500}
+            height={500}
+            alt="Picture of the author"
+          />
         ) : (
           <FontAwesomeIcon icon={faUser} />
         )}
@@ -39,15 +40,20 @@ export default function ProfileModal() {
         <div className="absolute -right-4 lg:absolute lg:right-0  bg-white mt-3 w-screen md:w-80 lg:w-80 rounded-md shadow-xl ring-1 ring-black ring-opacity-5">
           <div className="py-1">
             <div className=" px-7 py-8 space-y-4">
-              <h1 className="text-2xl font-bold">User LogOut</h1>
+              <h1 className="text-2xl text-center font-bold">Profile</h1>
               <div>
                 <b>Name: </b> <span>{session?.user?.name}</span>
               </div>
               <div>
                 <b> Email:</b> <span>{session?.user?.email}</span>
               </div>
+              <div>
+                <YourProductBtn />
+              </div>
+              <div>
+                <UserLogOut />
+              </div>
             </div>
-            <UserLogOut />
           </div>
         </div>
       )}

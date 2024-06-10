@@ -161,10 +161,8 @@ import Image from "next/image";
 import React, { useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import Loader from "../loader/Loader";
 
 const page = () => {
-  const [loader, setLoader] = useState(false);
   const { data: sessionData } = useSession();
   console.log("sessionData", sessionData);
 
@@ -218,7 +216,6 @@ const page = () => {
 
   async function uploaddata(e) {
     e.preventDefault();
-    setLoader(true);
     if (sessionData != null) {
       var userid = sessionData?.user?.id;
     }
@@ -241,7 +238,6 @@ const page = () => {
         console.log(err);
       });
     console.log("response", response);
-    setLoader(false);
   }
 
   function del(index) {
@@ -251,92 +247,142 @@ const page = () => {
   }
   return (
     <>
-      <div className="main-page-layout flex flex-col justify-center items-center mx-auto mt-4 md:mt-10 md:gap-y-10 lg:gap-y-6">
-        <div className="">
-          {loader && <Loader />}
-          <div className="text-2xl font-bold md:text-4xl">
+      <div className="flex flex-col justify-center items-center mx-auto mt-4 md:mt-10 md:gap-y-10 lg:gap-y-6">
+        <div className="container max-w-2xl px-4 py-8">
+          {/* {loader && <Loader />} */}
+          <div className="text-2xl font-bold md:text-4xl mb-6">
             <h1>Upload Your Products</h1>
           </div>
-          <div className="mx-14 mt-4 ">
-            <form onSubmit={uploaddata}>
-              <div className="">
-                <label htmlFor="" className="text-lg font-semibold">
+          <div className="flex items-center justify-center flex-col">
+            <form onSubmit={uploaddata} className="w-full space-y-6">
+              <div>
+                <label
+                  htmlFor="title"
+                  className="block text-lg font-semibold text-gray-700"
+                >
                   Title
                 </label>
-                <br />
-                <input type="text" onChange={changehandler} name="title" />
-                <br />
-                <label htmlFor="" className="text-lg font-semibold">
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  onChange={changehandler}
+                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="author"
+                  className="block text-lg font-semibold text-gray-700"
+                >
                   Author Name
                 </label>
-                <br />
-                <input type="text" onChange={changehandler} name="author" />
-                <br />
-                <label htmlFor="" className="text-lg font-semibold">
-                  Price(Rs)
+                <input
+                  type="text"
+                  id="author"
+                  name="author"
+                  onChange={changehandler}
+                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="price"
+                  className="block text-lg font-semibold text-gray-700"
+                >
+                  Price (Rs)
                 </label>
-                <br />
-                <input type="number" onChange={changehandler} name="price" />
-                <br />
-                <label htmlFor="" className="text-lg font-semibold">
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  onChange={changehandler}
+                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="description"
+                  className="block text-lg font-semibold text-gray-700"
+                >
                   Description
                 </label>
-                <br />
-                <input
-                  type="text-area"
-                  onChange={changehandler}
+                <textarea
+                  id="description"
                   name="description"
-                />
-                <br />
-                <div className="border-2 border-gray-500 py-2 px-1 rounded-md">
-                  <label htmlFor="">Select Catogery</label>
-                  <select onChange={changehandler} name="catogery" id="">
-                    <option value="">Select</option>
-                    <option value="Trending Products">Trending Products</option>
-                    <option value="Best collections">Best collections</option>
-                    <option value="Discounts Products">
-                      Discounts Products
-                    </option>
-                  </select>
-                </div>
-                <label htmlFor="">Select Images</label>
+                  onChange={changehandler}
+                  className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+                ></textarea>
+              </div>
+
+              <div 
+              // className="border-2 border-gray-300 dark:border-gray-600 py-2 px-4 rounded-md"
+              >
+                <label
+                  htmlFor="category"
+                  className="block text-lg font-semibold text-gray-700"
+                >
+                  Select Category
+                </label>
+                <select
+                  id="category"
+                  name="catogery"
+                  onChange={changehandler}
+                  className="cursor-pointer mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
+                >
+                  <option value="">Select</option>
+                  <option value="Trending Products">Trending Products</option>
+                  <option value="Best collections">Best collections</option>
+                  <option value="Discounts Products">Discounts Products</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  htmlFor="images"
+                  className="block text-lg font-semibold text-gray-700"
+                >
+                  Select Images
+                </label>
                 <input
                   type="file"
+                  id="images"
                   accept="image/*"
                   onChange={imagehandler}
                   multiple
+                  className="cursor-pointer mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600"
                 />
               </div>
+
               <button
-                type="button"
-                onClick={uploaddata}
-                class="mt-2 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                type="submit"
+                className="mt-2 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 Submit
               </button>
             </form>
           </div>
-          <div className="image-main-show flex justify-between items-center">
-            {img?.map((image, index) => {
-              return (
-                <>
-                  <div className="image-show-box ">
-                    <Image
-                      src={image.url}
-                      alt="Loading"
-                      width={150}
-                      height={100}
-                    />
-                    <button
-                      className="image-del-btn"
-                      onClick={() => del(index)}
-                    >
-                      delete
-                    </button>
-                  </div>
-                </>
-              );
-            })}
+          <div className="image-main-show flex flex-wrap gap-4 mt-6">
+            {img?.map((image, index) => (
+              <div key={index} className="relative">
+                <Image
+                  src={image.url}
+                  alt="Loading"
+                  width={150}
+                  height={100}
+                  className="rounded-md"
+                />
+                <button
+                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1"
+                  onClick={() => del(index)}
+                >
+                  delete
+                </button>
+              </div>
+            ))}
           </div>
         </div>
       </div>
