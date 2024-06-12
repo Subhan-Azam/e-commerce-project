@@ -100,9 +100,6 @@
 //   );
 // }
 
-
-
-
 import axios from "axios";
 import Link from "next/link";
 
@@ -136,8 +133,8 @@ export default async function FetchProducts() {
           {result?.map((item) => {
             return (
               <div className="mx-auto sm:mx-0 p-4 sm:w-1/2 md:w-1/3 lg:w-1/4">
-                <div className="w-[300px] sm:w-[290px] reverse h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg hover:shadow-gray-600">
-                  <Link href={`/productDetail/${item._id}`} key={item._id}>
+                <Link href={`/productDetail/${item._id}`} key={item._id}>
+                  <div className="w-[300px] sm:w-[290px] reverse h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden transition-transform transform hover:scale-105 hover:shadow-lg hover:shadow-gray-600">
                     <img
                       className="py-2 lg:h-48 md:h-36 w-full object-cover object-center"
                       src={item.imgs_url[0].img_url}
@@ -172,8 +169,8 @@ export default async function FetchProducts() {
                         </button>
                       </div>
                     </div>
-                  </Link>
-                </div>
+                  </div>
+                </Link>
               </div>
             );
           })}

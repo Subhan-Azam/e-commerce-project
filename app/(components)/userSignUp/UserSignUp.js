@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-regular-svg-icons";
 import GoogleLogin from "../googleLogin/GoogleLogin";
-import Loader from "@/app/loader/Loader";
+import Loader from "@/app/(components)/loader/Loader";
 
 export default function UserRegistration() {
   const [name, setName] = useState("");
