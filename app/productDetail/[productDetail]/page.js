@@ -152,6 +152,7 @@ export default function Page({ params }) {
   const [product, setProduct] = useState(null);
   const [cartData, setCartData] = useState(null);
   const [cartIds, setCartIds] = useState([]);
+  const [removeCartData, setRemoveCartData] = useState();
 
   useEffect(() => {
     // Fetch the cart from localStorage after component mounts
@@ -188,6 +189,14 @@ export default function Page({ params }) {
     let localCartId = cartIds;
     localCartId.push(item._id);
     setCartIds(localCartId);
+    setRemoveCartData()
+  };
+
+  const removeFromCart = (id) => {
+    setRemoveCartData(id)
+    var localIds = cartIds.filter((item) => item != id);
+    setCartIds(localIds)
+    setCartData()
   };
 
   if (!product) {
@@ -196,7 +205,7 @@ export default function Page({ params }) {
 
   return (
     <>
-      <Navbar cartData={cartData} />
+      <Navbar cartData={cartData} removeCartData={removeCartData} />
       <div className="container mx-auto p-4">
         <div className="flex flex-col lg:flex-row">
           {Array.isArray(product) &&
@@ -222,7 +231,10 @@ export default function Page({ params }) {
                 <p className="mt-1">Composition: 100% calf leather</p>
 
                 {cartIds.includes(item._id) ? (
-                  <RemoveFromCartBtn />
+                  <RemoveFromCartBtn
+                    removeFromCart={removeFromCart}
+                    item={item._id}
+                  />
                 ) : (
                   <AddToCartBtn addToCart={addToCart} item={item} />
                 )}

@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { BsCart4 } from "react-icons/bs";
 
@@ -26,23 +27,41 @@ export default function AddToCartModal(props) {
     }
   }, [cartData]);
 
+  useEffect(() => {
+    if (props.removeCartData) {
+      let localCartItem = cartItems.filter((item) => {
+        return item._id != props.removeCartData;
+      });
+
+      setCartItems(localCartItem);
+      setCartNumber(cartNumber - 1);
+      localStorage.setItem("cart", JSON.stringify(localCartItem));
+      if (localCartItem.length == 0) {
+        localStorage.removeItem("cart");
+      }
+    }
+  }, [props.removeCartData]);
+
   console.log("cartItems :>>", cartItems);
 
   const modalHandler = () => {
     setOpenModal(!openModal);
   };
+
   return (
     <div>
       <div className="relative">
-        <button onClick={modalHandler} className="">
-          <BsCart4 className="text-white text-[30px]" />
-        </button>
-        <div className="absolute -top-3 -right-3 bg-orange-500 rounded-full w-5 text-center text-sm">
-          {cartNumber ? cartNumber : 0}
-        </div>
+        <Link href={cartNumber?"/allAddedCarts": "#"}>
+          <button onClick={modalHandler} className="">
+            <BsCart4 className="text-white text-[30px]" />
+          </button>
+          <div className="absolute -top-3 -right-3 bg-orange-500 rounded-full w-5 text-center text-sm">
+            {cartNumber ? cartNumber : 0}
+          </div>
+        </Link>
       </div>
 
-      {openModal && (
+      {/* {openModal && (
         <div className="absolute -right-4 lg:absolute lg:right-0  bg-white mt-3 w-screen md:w-64 rounded-md shadow-xl ring-1 ring-black ring-opacity-5">
           <div className="py-1">
             <div className=" px-7 py-8 space-y-4">
@@ -56,7 +75,7 @@ export default function AddToCartModal(props) {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

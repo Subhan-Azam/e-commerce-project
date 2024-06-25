@@ -11,7 +11,7 @@ import SellProductsBtn from "../sellProductsBtn/SellProductsBtn";
 import Link from "next/link";
 import AddToCartModal from "../addToCartModal/AddToCartModal";
 
-export default function Navbar({cartData}) {
+export default function Navbar({cartData, removeCartData}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { data: session } = useSession();
 
@@ -101,7 +101,7 @@ export default function Navbar({cartData}) {
                 {session ? (
                   <div className="flex flex-row-reverse gap-8 items-center">
                     <ProfileModal />
-                    <AddToCartModal cartData={cartData} />
+                    <AddToCartModal cartData={cartData} removeCartData={removeCartData} />
                     <SellProductsBtn />
                   </div>
                 ) : (
