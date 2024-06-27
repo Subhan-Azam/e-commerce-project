@@ -55,7 +55,7 @@ export default function AddToCartModal(props) {
           <button onClick={modalHandler} className="">
             <BsCart4 className="text-white text-[30px]" />
           </button>
-          <div className="absolute -top-3 -right-3 bg-orange-500 rounded-full w-5 text-center text-sm">
+          <div className="absolute -top-3 -right-3 bg-orange-800 text-white rounded-full w-5 text-center text-sm">
             {cartNumber ? cartNumber : 0}
           </div>
         </Link>

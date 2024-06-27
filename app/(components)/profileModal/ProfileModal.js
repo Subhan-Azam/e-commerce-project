@@ -22,7 +22,7 @@ export default function ProfileModal() {
     <div className="relative z-10">
       <button
         onClick={openModal}
-        className="border border-white hover:border-none text-blue-950 socialContainer containerOne"
+        className="border border-blue-700 hover:border-none text-blue-700 socialContainer containerOne"
         // className="text-blue-950 h-10 w-10 rounded-full flex items-center justify-center bg-white shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
         {userImage ? (
@@ -35,7 +35,7 @@ export default function ProfileModal() {
             alt="Picture of the author"
           />
         ) : (
-          <FontAwesomeIcon icon={faUser} className="text-blue-950 socialSvg instagramSvg" />
+          <FontAwesomeIcon icon={faUser} className="text-red-600 socialSvg instagramSvg" />
         )}
       </button>
 

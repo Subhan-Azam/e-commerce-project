@@ -1,0 +1,39 @@
+.navbar {
+  background-color: rgb(3, 3, 15);
+  /* backdrop-filter: blur(80px); */
+  position: sticky;
+  top: 0px;
+  z-index: 1;
+}
+
+ul li {
+  position: relative;
+  background-image: linear-gradient(
+    to right,
+    rgb(227, 62, 213),
+    rgb(98, 0, 128)
+  );
+  color: transparent;
+  -webkit-background-clip: text;
+}
+
+ul li::after {
+  content: "";
+  position: absolute;
+  left: 0px;
+
+  bottom: 0px;
+  height: 3px;
+  background-color:  black;
+  /* background-image: linear-gradient(
+      to right,
+      rgb(227, 62, 213),
+      rgb(98, 0, 128)
+    ); */
+  width: 0%;
+  transition: all ease 0.5s;
+}
+ul li:hover::after {
+  width: 100%;
+  background-color:  black;
+}
