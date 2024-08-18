@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const fetchUsers = async () => {
   try {
     let res = await axios.get("http://localhost:3001/api/allUsers");
